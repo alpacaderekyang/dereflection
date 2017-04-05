@@ -1,4 +1,4 @@
- I_in = imread('1_15_25_7.jpg');
+ I_in = imread('2_15_25_7.jpg');
  I_in = im2double(I_in);
  J_in = I_in;
   
@@ -12,31 +12,17 @@
  
  Laplacian=[0 -1 0; -1 4 -1; 0 -1 0];
  resp = imfilter(I_in, Laplacian); 
- resp2 = imfilter(J_in, Laplacian);
- resp3 = imfilter(J_in, Laplacian);
-  
- J_rev_temp = J_rev;
- J_rev_over = J_rev_temp > 0.9;
- J_rev_under = J_rev_temp < 0.2;
- J_rev_temp(J_rev_over) = 0.9;
- J_rev_temp(J_rev_under) = 0.2;
- 
- 
- resp_rev = resp./J_rev_temp;
-  %resp = resp./I_in;
-
-  
+ [resp2,~] = imgradient(I_in);
   
   figure,
-  subplot(1,2,1), imshow(resp),title('normalized')
-  %subplot(1,2,1), imshow(resp3/max(max(resp3))),title('with inverse');
-  %subplot(1,2,2), imshow(resp2/max(max(resp2))),title('with imadjust');
-  subplot(1,2,2), imshow(resp_rev),title('with reverse normalized');
+  subplot(1,2,1), imshow(resp/max(max(resp))),title('original')
+  subplot(1,2,2), imshow(resp2/max(max(resp2))),title('gradient');
   
   %auto_corr = xcorr2(resp, resp);
-  auto_corr = xcorr2(resp_rev, resp_rev);
+  auto_corr = xcorr2(resp2, resp2);
   
-  
+  figure,
+  imshow(auto_corr/max(max(auto_corr))),title('auto corr');
  
 
   bdry = size(I_in,1)-30;
@@ -69,5 +55,5 @@
   end
   c = est_attenuation(I_in, dx, dy);
   
-  figure,
-  imshow(auto_corr/max(max(auto_corr))),title('auto corr');
+%   figure,
+%   imshow(auto_corr/max(max(auto_corr))),title('auto corr');
