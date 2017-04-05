@@ -3,11 +3,13 @@ function [dx dy c ] =  kernel_est(I_in)
   I_in = rgb2gray(I_in);
   Laplacian=[0 -1 0; -1 4 -1; 0 -1 0];
   resp = imfilter(I_in, Laplacian);
+  
+  %imshow(resp/max(max(resp)));
+  
   auto_corr = xcorr2(resp, resp);
-  %bdry = 370; 
+  
   bdry = size(I_in,1)-30;
-  %bdry = 112-30; %test1
-  %bdry = 383-30; %test2
+  
   auto_corr = auto_corr(bdry:end-bdry, bdry:end-bdry);
   
   max_1 = ordfilt2(auto_corr, 25, true(5));
@@ -24,7 +26,7 @@ function [dx dy c ] =  kernel_est(I_in)
   offset = size(auto_corr)/2 + 1;
   for i = 1 : length(candidates)
     if (candidates_val(i) > cur_max)  
-      [dy dx] = ind2sub(size(auto_corr), candidates(i)); 
+      [dy , dx] = ind2sub(size(auto_corr), candidates(i)); 
       dy = dy - offset(1);
       dx = dx - offset(2);
     end
