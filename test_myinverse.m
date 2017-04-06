@@ -17,16 +17,15 @@
  Laplacian=[0 -1 0; -1 4 -1; 0 -1 0];
  resp = imfilter(I_in, Laplacian); 
  resp2 = imfilter(J_in, Laplacian);
- resp3 = imfilter(J_in, Laplacian);
+ resp3 = imfilter(J_rev, Laplacian);
   
-  auto_corr = xcorr2(resp, resp);
-  
-  auto_corr3 = xcorr2(resp3, resp3);
+  %auto_corr = xcorr2(resp, resp);
+  auto_corr = xcorr2(resp3, resp3);
   
   figure,
-  subplot(1,2,1), imshow(resp/max(max(resp))),title('original')
-  subplot(1,2,2), imshow(resp3/max(max(resp3))),title('with inverse');
-  %subplot(1,2,2), imshow(resp2/max(max(resp2))),title('with imadjust');
+  %subplot(1,2,1), imshow(resp/max(max(resp))),title('original')
+  subplot(1,2,1), imshow(resp3/max(max(resp3))),title('with inverse');
+  subplot(1,2,2), imshow(resp2/max(max(resp2))),title('with imadjust');
   
 %   figure,
 %   imshow(auto_corr/max(max(auto_corr))),title('auto corr');
@@ -52,15 +51,15 @@
   
   candidates_val = auto_corr(candidates);
 
-%   cur_max = 0;
-%   dx = 0; 
-%   dy = 0;
-%   offset = size(auto_corr)/2 + 1;
-%   for i = 1 : length(candidates)
-%     if (candidates_val(i) > cur_max)  
-%       [dy , dx] = ind2sub(size(auto_corr), candidates(i)); 
-%       dy = dy - offset(1);
-%       dx = dx - offset(2);
-%     end
-%   end
-%   c = est_attenuation(I_in, dx, dy);
+  cur_max = 0;
+  dx = 0; 
+  dy = 0;
+  offset = size(auto_corr)/2 + 1;
+  for i = 1 : length(candidates)
+    if (candidates_val(i) > cur_max)  
+      [dy , dx] = ind2sub(size(auto_corr), candidates(i)); 
+      dy = dy - offset(1);
+      dx = dx - offset(2);
+    end
+  end
+  c = est_attenuation(I_in, dx, dy);

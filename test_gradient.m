@@ -1,4 +1,4 @@
- I_in = imread('2_15_25_7.jpg');
+ I_in = imread('1_15_25_7.jpg');
  I_in = im2double(I_in);
  J_in = I_in;
   

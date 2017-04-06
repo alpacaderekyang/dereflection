@@ -14,14 +14,12 @@
  %resp = imfilter(I_in, Laplacian); 
  resp = edge(I_in,'Sobel');
  resp2 = imfilter(J_in, Laplacian);
-%  resp3 = imfilter(J_in, Laplacian);
  resp = double(resp);
  
  auto_corr = xcorr2(resp, resp);
 
   figure,
   subplot(1,2,1), imshow(resp/max(max(resp))),title('sobel')
-  %subplot(1,2,1), imshow(resp3/max(max(resp3))),title('with inverse');
   subplot(1,2,2), imshow(resp2/max(max(resp2))),title('with imadjust');
   
   figure,

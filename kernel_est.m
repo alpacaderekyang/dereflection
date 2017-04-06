@@ -3,9 +3,7 @@ function [dx dy c ] =  kernel_est(I_in)
   I_in = rgb2gray(I_in);
   Laplacian=[0 -1 0; -1 4 -1; 0 -1 0];
   resp = imfilter(I_in, Laplacian);
-  
-  %imshow(resp/max(max(resp)));
-  
+
   auto_corr = xcorr2(resp, resp);
   
   bdry = size(I_in,1)-30;
